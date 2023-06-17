@@ -12,11 +12,8 @@ node {
      }
    }
    stage('docker build/push') {
-     withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v2/') {
-       script {
-         def app = docker.build("nkhatsanovskaya/docker-nodejs-demo:${commit_id}", '.')
-         app.push()
-       }
-     }
+      docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
+         def app = docker.build("nkhatsanovskaya/docker-nodejs-demo:${commit_id}", '.').push()
+      }
    }
 }
